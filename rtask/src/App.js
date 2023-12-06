@@ -19,13 +19,13 @@ let ballStyle = {
   minHeight: ballMinSize + 'px',
   backgroundColor: 'rgb(0, 183, 138)',
   margin: '5px 0px',
-  borderRadius: '50px',
-  opacity: '0.7',
+  borderRadius: '40px',
+  opacity: '0.5',
 }
 
 function App() {
   const allDayInMs = 24 * 60 * 60 * 1000
-  const fiftinminutesInMS = 15 * 60 * 1000
+  const fifteenminutesInMS = 15 * 60 * 1000
 
   const today = new Date('2023-05-30T00:00:00+00:00')
   const tomorrow = new Date('2023-05-31T00:00:00+00:00')
@@ -38,7 +38,7 @@ function App() {
 
     if (
       new Date(currentInterval.from) - new Date(previousInterval.to) <=
-      fiftinminutesInMS
+      fifteenminutesInMS
     ) {
       group.push(currentInterval)
     } else {
@@ -75,25 +75,24 @@ function App() {
     width = (width / allDayInMs) * 100
     if (check) {
       let styles = interval[0].inHome ? {} : ballStyle
-      return (
-        <div key={idx} style={{...styles, width: width + '%', }}></div>
-      )
+      return <div key={idx} style={{ ...styles, width: width + '%' }}></div>
     } else {
       return (
         <div key={idx} style={{ display: 'flex', width: width + '%' }}>
-          {interval.map((element, elemIdx) => {
+          {interval.map((element, elemIdx, thisArr) => {
             let ballWidth = new Date(element.to) - new Date(element.from)
             ballWidth = (ballWidth / allDayInMs) * 100
             let percentFromParentWidth = (ballWidth / width) * 100
+
             return (
-              <div
-                key={elemIdx + idx}
-                style={{
-                  ...ballStyle,
-                  width: percentFromParentWidth + '%',
-                  marginRight: (ballMinSize / 2) * -1 + 'px',
-                }}
-              ></div>
+              <div style={{ width: percentFromParentWidth + '%' }}>
+                <div
+                  key={elemIdx + idx}
+                  style={{
+                    ...ballStyle,
+                  }}
+                ></div>
+              </div>
             )
           })}
         </div>
